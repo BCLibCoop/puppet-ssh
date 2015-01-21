@@ -24,7 +24,7 @@ define ssh::recv::exported_sshkey(
 ) {
 	# this needs to be wrapped, because ensure_resource doesn't support: @@
 	@@sshkey { $name:
-		type => $type,
+		'type' => $type,
 		tag => $xtag,
 		key => $key,
 		ensure => $ensure,

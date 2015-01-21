@@ -39,7 +39,7 @@ define ssh::send(	# send...
 	#@@ssh_authorized_key { "root@${::fqdn}":
 	$params = {
 		user => 'root',
-		type => 'rsa',
+		'type' => 'rsa',
 		xtag => "ssh_key_root_${valid_name}",
 		key => getvar("ssh_key_root_${::hostname}_rsa"),	# fact!
 		options => [
