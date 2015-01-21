@@ -101,8 +101,8 @@ define ssh::file::pull(	# formerly named: recv; pull was easier to think about!
 	$file_gone = "/usr/bin/test ! -e '${valid_this}'"	# file missing!
 
 	# these commands get the values of the hashes- they return '' if empty!
-	$this_hash = "/bin/cat ${metadata} 2> /dev/null | /bin/awk '{print \$1}'"
-	$that_hash = "/bin/grep '${valid_file}$' '${vardir}/file/cat/${valid_host}' 2> /dev/null | /bin/awk '{print \$1}'"
+	$this_hash = "/bin/cat ${metadata} 2> /dev/null | /usr/bin/awk '{print \$1}'"
+	$that_hash = "/bin/grep '${valid_file}$' '${vardir}/file/cat/${valid_host}' 2> /dev/null | /usr/bin/awk '{print \$1}'"
 
 	# we need to do this empty check so that we run before anything exists!
 	$zero_hash = "/usr/bin/test -n \"`${this_hash}`\" && /usr/bin/test -n \"`${that_hash}`\""
