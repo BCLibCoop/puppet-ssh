@@ -42,7 +42,7 @@ Etc.passwd { |u|			# loop through each user in /etc/passwd
 					Facter.add(n) do
 						#confine :operatingsystem => %w{CentOS, RedHat, Fedora}
 						setcode do
-							Facter::Util::Resolution.exec("/bin/cat '"+d+"' | /bin/awk '{print $2}'")
+							Facter::Util::Resolution.exec("/usr/bin/awk '{print $2}' <'"+d+"'")
 						end
 					end
 					found.push(n)	# add to arr of keys...
