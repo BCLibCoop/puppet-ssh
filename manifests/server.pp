@@ -39,7 +39,7 @@ class ssh::server(
 		force => false,			# TODO: what should this be ?
 		owner => root,
 		group => root,
-		mode => 644,
+		mode => '0644',
 		notify => Service['sshd'],
 		require => Package['openssh-server'],
 	}
@@ -50,7 +50,7 @@ class ssh::server(
 		dir => '/etc/ssh/sshd_config.d/',
 		owner => root,
 		group => root,
-		mode => 600,			# u=rw,g=r,o=
+		mode => '0600',			# u=rw,g=r,o=
 		pattern => '*.frag',		# only include files that match
 		notify => Service['sshd'],
 		require => File['/etc/ssh/'],

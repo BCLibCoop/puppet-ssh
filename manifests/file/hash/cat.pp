@@ -38,7 +38,7 @@ define ssh::file::hash::cat(	# used to install a cat together file of hashes
 		content => "${content}",
 		owner => root,
 		group => root,
-		mode => 600,	# might as well...
+		mode => '0600',	# might as well...
 		ensure => present,
 		require => File["${valid_basepath}"],
 	}

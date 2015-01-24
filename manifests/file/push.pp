@@ -164,7 +164,7 @@ define ssh::file::push(	# formerly named: send; push was easier to think about!
 			", "\n", 'G'),	# line this up to remove leading tabs!!
 		owner => root,
 		group => root,
-		mode => 700,
+		mode => '0700',
 		ensure => present,
 		require => File["${vardir}/file/"],
 	}

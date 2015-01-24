@@ -31,7 +31,7 @@ define ssh::file::hash(
 	file { "${metadata}":
 		owner => root,
 		group => root,
-		mode => 600,	# might as well...
+		mode => '0600',	# might as well...
 		ensure => present,
 		require => File["${vardir}/file/hash/"],
 	}
