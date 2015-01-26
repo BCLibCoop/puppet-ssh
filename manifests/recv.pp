@@ -33,7 +33,7 @@ define ssh::recv(	# recv...
 	#@@ssh::known_hosts { "${::hostname}":		# TODO: build this...
 	#	user => 'root',
 	#	host_aliases => ["${::ipaddress}"],	# TODO: pick a smart ip
-	#	type => 'rsa',
+	#	'type' => 'rsa',
 	#	tag => "ssh_host_key_${::fqdn}",
 	#	key => "${sshrsakey}",			# built-in puppet fact!
 	#}
@@ -41,7 +41,7 @@ define ssh::recv(	# recv...
 	$params = {
 		# TODO: this could be all the ipaddresses seen instead!
 		#host_aliases => ["${::ipaddress}"],	# TODO: pick a smart ip
-		type => 'rsa',
+		'type' => 'rsa',
 		xtag => "ssh_host_key_${valid_name}",
 		key => "${sshrsakey}",			# built-in puppet fact!
 		ensure => present,
