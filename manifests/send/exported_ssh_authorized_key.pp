@@ -25,7 +25,7 @@ define ssh::send::exported_ssh_authorized_key(
 	# this needs to be wrapped, because ensure_resource doesn't support: @@
 	@@ssh_authorized_key { $name:
 		user => $user,
-		'type' => $type,
+		type => $type,
 		tag => $xtag,
 		key => $key,
 		options => $options,
