@@ -15,14 +15,14 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-define ssh::file::hash(
+define shubin_ssh::file::hash(
 	$verify = true	# verify the hash on *every* run or rely only on mtime?
 ) {
 
-	include ssh::file::hash::base
-	include ssh::vardir
-	#$vardir = $::ssh::vardir::module_vardir	# with trailing slash
-	$vardir = regsubst($::ssh::vardir::module_vardir, '\/$', '')
+	include shubin_ssh::file::hash::base
+	include shubin_ssh::vardir
+	#$vardir = $::shubin_ssh::vardir::module_vardir	# with trailing slash
+	$vardir = regsubst($::shubin_ssh::vardir::module_vardir, '\/$', '')
 
 	$safename = regsubst("${name}", '/', '_', 'G')	# make /'s safe
 	$metadata = "${vardir}/file/hash/${safename}"

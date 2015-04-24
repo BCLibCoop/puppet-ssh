@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-class ssh::server(
+class shubin_ssh::server(
 	$authorizedkeysfile = false,
 	$banner = false,
 	$authorizedkeyscommand = false,

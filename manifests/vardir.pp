@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-class ssh::vardir {	# module vardir snippet
+class shubin_ssh::vardir {	# module vardir snippet
 	if "${::puppet_vardirtmp}" == '' {
 		if "${::puppet_vardir}" == '' {
 			# here, we require that the puppetlabs fact exist!

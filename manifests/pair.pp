@@ -17,30 +17,30 @@
 
 # causes many to many pairing for anyone including this in the same namespace !
 # the first run will cause the hostnames to swap, the second run causes pairing
-class ssh::pair(
+class shubin_ssh::pair(
 	$fast = true,	# if true, we don't double run for hostname exchange :)
 	$namespace = 'ssh'	# TODO: use this in the types for uniqueness...
 ) {
 
 	if $fast {
-		ssh::recv { "${namespace}":
+		shubin_ssh::recv { "${namespace}":
 			fast => true,
 		}
-		ssh::send { "${namespace}":
+		shubin_ssh::send { "${namespace}":
 			fast => true,
 		}
 
 	} else {
 		# automatically figure out the send and recv names by exporting them :)
-		@@ssh::recv { "${::fqdn}":
+		@@shubin_ssh::recv { "${::fqdn}":
 			tag => "${namespace}",
 		}
-		@@ssh::send { "${::fqdn}":
+		@@shubin_ssh::send { "${::fqdn}":
 			tag => "${namespace}",
 		}
-		Ssh::Recv <<| tag == "${namespace}" and title != "${::fqdn}" |>> {
+		Shubin_ssh::Recv <<| tag == "${namespace}" and title != "${::fqdn}" |>> {
 		}
-		Ssh::Send <<| tag == "${namespace}" and title != "${::fqdn}" |>> {
+		Shubin_ssh::Send <<| tag == "${namespace}" and title != "${::fqdn}" |>> {
 		}
 	}
 }

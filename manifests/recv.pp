@@ -15,13 +15,13 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-define ssh::recv(	# recv...
+define shubin_ssh::recv(	# recv...
 	#$to
 	$fast = false
 ) {
 
 	# receive from sender...
-	Ssh_authorized_key <<| tag == "ssh_key_root_${name}" |>>
+	Shubin_ssh_authorized_key <<| tag == "ssh_key_root_${name}" |>>
 
 	# if we're running fast, we don't care that they match because it's N-N
 	$valid_name = $fast ? {
@@ -30,7 +30,7 @@ define ssh::recv(	# recv...
 	}
 
 	# send to sender...
-	#@@ssh::known_hosts { "${::hostname}":		# TODO: build this...
+	#@@shubin_ssh::known_hosts { "${::hostname}":		# TODO: build this...
 	#	user => 'root',
 	#	host_aliases => ["${::ipaddress}"],	# TODO: pick a smart ip
 	#	'type' => 'rsa',
@@ -48,7 +48,7 @@ define ssh::recv(	# recv...
 	}
 	# FIXME: puppet doesn't allow @@ in ensure_resource!
 	#ensure_resource('@@sshkey', "${::fqdn}", $params)
-	ensure_resource('ssh::recv::exported_sshkey', "${::fqdn}", $params)
+	ensure_resource('shubin_ssh::recv::exported_sshkey', "${::fqdn}", $params)
 
 }
 

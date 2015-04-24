@@ -15,16 +15,16 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-define ssh::send(	# send...
+define shubin_ssh::send(	# send...
 	#$from
 	$fast = false
 ) {
 
-	include ssh::send::base
+	include shubin_ssh::send::base
 
 	# add the receiver host key into the sending known_hosts file!
 	# receive from receiver...
-	#Ssh::Known_hosts <<| tag == "ssh_host_key_${name}" |>>	# TODO
+	#Shubin_ssh::Known_hosts <<| tag == "ssh_host_key_${name}" |>>	# TODO
 	Sshkey <<| tag == "ssh_host_key_${name}" |>> {
 		target => '/root/.ssh/known_hosts',	# use the local file :)
 	}
@@ -54,7 +54,7 @@ define ssh::send(	# send...
 	}
 	# FIXME: puppet doesn't allow @@ in ensure_resource!
 	#ensure_resource('@@ssh_authorized_key', "root@${::fqdn}", $params)
-	ensure_resource('ssh::send::exported_ssh_authorized_key', "root@${::fqdn}", $params)
+	ensure_resource('shubin_ssh::send::exported_ssh_authorized_key', "root@${::fqdn}", $params)
 
 }
 

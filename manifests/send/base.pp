@@ -15,12 +15,12 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-class ssh::send::base() {
+class shubin_ssh::send::base() {
 
 	# NOTE: it is advantageous to generate this right here, as opposed to
 	# generating these centrally and pushing with puppet, because in that
 	# scenario, there is a greater chance that a private key gets "lost"!
-	ssh::keygen { "root@${::fqdn}":		# build a public/private key!
+	shubin_ssh::keygen { "root@${::fqdn}":		# build a public/private key!
 		user => 'root',
 		type => 'rsa',			# TODO: pull from a variable...
 		bits => '2048',			# TODO: pull from a variable...

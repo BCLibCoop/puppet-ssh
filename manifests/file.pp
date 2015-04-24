@@ -19,14 +19,14 @@
 # for file pulling is only readonly... only allow scp and sha256sum if possible
 # if we can use a non-root user for this, that's even better, even if it's hard
 
-class ssh::file(
+class shubin_ssh::file(
 	$pair = true,	# limited pair with whoever is sending us files...
 	$fast = false
 ) {	# include this class on senders or receivers for magic!
 
-	include ssh::vardir
-	#$vardir = $::ssh::vardir::module_vardir	# with trailing slash
-	$vardir = regsubst($::ssh::vardir::module_vardir, '\/$', '')
+	include shubin_ssh::vardir
+	#$vardir = $::shubin_ssh::vardir::module_vardir	# with trailing slash
+	$vardir = regsubst($::shubin_ssh::vardir::module_vardir, '\/$', '')
 
 	file { "${vardir}/file/":
 		ensure => directory,	# make sure this is a directory
@@ -37,14 +37,14 @@ class ssh::file(
 	}
 
 	# collect and compute all the file hashes that others have requested...
-	# NOTE: if we collected the real (ssh::file::hash) type, we would get a
+	# NOTE: if we collected the real (shubin_ssh::file::hash) type, we would get a
 	# duplicate error. as a result, we collect the unique wrappers instead!
-	Ssh::File::Hash::Wrapper <<| tag == "${::fqdn}" |>> {
+	Shubin_ssh::File::Hash::Wrapper <<| tag == "${::fqdn}" |>> {
 	}
 
 	if $pair {
 		# automatically receive the ssh:recv tags we need to use...
-		Ssh::Recv::Auto <<| tag == "${::fqdn}" |>> {
+		Shubin_ssh::Recv::Auto <<| tag == "${::fqdn}" |>> {
 			fast => $fast,
 		}
 	}

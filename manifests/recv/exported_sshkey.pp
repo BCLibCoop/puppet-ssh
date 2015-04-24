@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-define ssh::recv::exported_sshkey(
+define shubin_ssh::recv::exported_sshkey(
 	#$host_aliases,
 	$type,
 	$xtag,	# TODO: if we use $tag, then we'll get a weird error...

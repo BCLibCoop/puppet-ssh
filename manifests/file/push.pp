@@ -15,12 +15,12 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# NOTE: this code is similar, but *quite* different to the ssh::file::pull type
+# NOTE: this code is similar, but *quite* different to the shubin_ssh::file::pull type
 # NOTE: it is preferable to use pull over push, which is provided for symmetry!
 
 # push a file over ssh. name is used as destination location, can be overridden
 # the destination location here takes the form of: [user]@<hostname>:/full/path
-define ssh::file::push(	# formerly named: send; push was easier to think about!
+define shubin_ssh::file::push(	# formerly named: send; push was easier to think about!
 	$file = '',	# src file
 	# if any of: $user,$host,$path,$dest are used, $name becomes a comment!
 	$user = '',	# dest user
@@ -33,10 +33,10 @@ define ssh::file::push(	# formerly named: send; push was easier to think about!
 
 ) {
 
-	include ssh::file		# TODO: pass in at least the $fast var?
-	include ssh::vardir
-	#$vardir = $::ssh::vardir::module_vardir	# with trailing slash
-	$vardir = regsubst($::ssh::vardir::module_vardir, '\/$', '')
+	include shubin_ssh::file		# TODO: pass in at least the $fast var?
+	include shubin_ssh::vardir
+	#$vardir = $::shubin_ssh::vardir::module_vardir	# with trailing slash
+	$vardir = regsubst($::shubin_ssh::vardir::module_vardir, '\/$', '')
 
 	$valid_file = "${file}"			# TODO: check if string is safe
 	if "${valid_file}" == '' {
@@ -101,18 +101,18 @@ define ssh::file::push(	# formerly named: send; push was easier to think about!
 	$valid_that = "${valid_path}/${valid_dest}"	# 'that' file, eg: dest
 
 	if $pair {
-		# NOTE: this should be 'ssh::send' on both push and pull!
-		#ssh::send { "${valid_host}":
+		# NOTE: this should be 'shubin_ssh::send' on both push and pull!
+		#shubin_ssh::send { "${valid_host}":
 		#}
 		$params = {
 			fast => $fast,
 		}
 		# don't cause duplicates if more than one push is used
-		ensure_resource('ssh::send', "${valid_host}", $params)
+		ensure_resource('shubin_ssh::send', "${valid_host}", $params)
 
 		# export a special recv type in case they want to use auto recv
 		# the name here is ignored and is only needed for uniqueness...
-		@@ssh::recv::auto { "${valid_host}-${name}":	# is ignored...
+		@@shubin_ssh::recv::auto { "${valid_host}-${name}":	# is ignored...
 			tag => "${valid_host}",	# to
 			from => "${::fqdn}",	# from
 			fast => $fast,	# but it's overriden on collect anyways
@@ -126,7 +126,7 @@ define ssh::file::push(	# formerly named: send; push was easier to think about!
 	# exported resources all clashing to add the same resource somewhere...
 	# to work around this puppet design bug, we use a wrapper to keep these
 	# types unique using ensure_resource and a unique (fake) wrapper $name!
-	ssh::file::hash::wrapper { "${::fqdn}_${name}_${valid_file}":
+	shubin_ssh::file::hash::wrapper { "${::fqdn}_${name}_${valid_file}":
 		realname => "${valid_file}",
 		verify => $verify,
 	}
@@ -159,7 +159,7 @@ define ssh::file::push(	# formerly named: send; push was easier to think about!
 			if ${zero_hash}; then
 				${test_hash} && exit 1 || exit 0
 			fi
-			${ssh_check} && exit 1 # run
+			${shubin_ssh_check} && exit 1 # run
 			exit 0\n", "
 			", "\n", 'G'),	# line this up to remove leading tabs!!
 		owner => root,
@@ -188,7 +188,7 @@ define ssh::file::push(	# formerly named: send; push was easier to think about!
 			# NOTE: i decided to deliberately not auto-require this
 			# file that we're sending. ping me if it makes sense to
 			#File["${valid_file}"],	# the file that we are copying!
-			Ssh::File::Hash["${valid_file}"],	# compute first
+			Shubin_ssh::File::Hash["${valid_file}"],	# compute first
 		],
 		alias => "ssh-file-push-scp-${name}",
 	}
@@ -203,12 +203,12 @@ define ssh::file::push(	# formerly named: send; push was easier to think about!
 	#}
 
 	# add a hash request on the dest host so it computes and exports one...
-	@@ssh::file::hash::wrapper { "__${::fqdn}_${name}_${valid_that}":
+	@@shubin_ssh::file::hash::wrapper { "__${::fqdn}_${name}_${valid_that}":
 		realname => "${valid_that}",	# complete path of file on host
 		tag => "${valid_host}",		# should usually be the fqdn...
 	}
 
-	include ssh::file::hash::collect	# collect these exported hashes
+	include shubin_ssh::file::hash::collect	# collect these exported hashes
 }
 
 # vim: ts=8

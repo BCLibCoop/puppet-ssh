@@ -15,10 +15,10 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# special type to wrap creation of ssh::recv, but without causing duplicates...
+# special type to wrap creation of shubin_ssh::recv, but without causing duplicates...
 # this is useful so that the $name value can be unique on an exported resource!
 
-define ssh::recv::auto(
+define shubin_ssh::recv::auto(
 	$from,	# fqdn
 	$fast = false
 ) {
@@ -27,7 +27,7 @@ define ssh::recv::auto(
 		fast => $fast,
 	}
 	# don't cause duplicates if more than one pull is used
-	ensure_resource('ssh::recv', "${from}", $params)
+	ensure_resource('shubin_ssh::recv', "${from}", $params)
 }
 
 # vim: ts=8

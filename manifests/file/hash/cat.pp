@@ -15,14 +15,14 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-define ssh::file::hash::cat(	# used to install a cat together file of hashes
+define shubin_ssh::file::hash::cat(	# used to install a cat together file of hashes
 	$basepath = '',
 	$content = ''
 ) {
 
-	include ssh::vardir
-	#$vardir = $::ssh::vardir::module_vardir	# with trailing slash
-	$vardir = regsubst($::ssh::vardir::module_vardir, '\/$', '')
+	include shubin_ssh::vardir
+	#$vardir = $::shubin_ssh::vardir::module_vardir	# with trailing slash
+	$vardir = regsubst($::shubin_ssh::vardir::module_vardir, '\/$', '')
 
 	$valid_basepath = "${basepath}" ? {
 		'' => "${vardir}/file/cat/",

@@ -15,12 +15,12 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# NOTE: this code is similar, but *quite* different to the ssh::file::push type
+# NOTE: this code is similar, but *quite* different to the shubin_ssh::file::push type
 # NOTE: it is preferable to use pull over push, which is provided for symmetry!
 
 # pull a file over ssh. name is used as destination location, can be overridden
 # the destination location here takes the form of: /full/posix/path/to/the/file
-define ssh::file::pull(	# formerly named: recv; pull was easier to think about!
+define shubin_ssh::file::pull(	# formerly named: recv; pull was easier to think about!
 	$user = '',	# src user
 	$host = '',	# src host
 	$file = '',	# src file
@@ -39,10 +39,10 @@ define ssh::file::pull(	# formerly named: recv; pull was easier to think about!
 	$fast = false
 ) {
 
-	include ssh::file		# TODO: pass in at least the $fast var?
-	include ssh::vardir
-	#$vardir = $::ssh::vardir::module_vardir	# with trailing slash
-	$vardir = regsubst($::ssh::vardir::module_vardir, '\/$', '')
+	include shubin_ssh::file		# TODO: pass in at least the $fast var?
+	include shubin_ssh::vardir
+	#$vardir = $::shubin_ssh::vardir::module_vardir	# with trailing slash
+	$vardir = regsubst($::shubin_ssh::vardir::module_vardir, '\/$', '')
 
 	$valid_user = "${user}" ? {
 		'' => 'root',
@@ -65,18 +65,18 @@ define ssh::file::pull(	# formerly named: recv; pull was easier to think about!
 	}
 
 	if $pair {
-		# NOTE: this should be 'ssh::send' on both push and pull!
-		#ssh::send { "${valid_host}":
+		# NOTE: this should be 'shubin_ssh::send' on both push and pull!
+		#shubin_ssh::send { "${valid_host}":
 		#}
 		$params = {
 			fast => $fast,
 		}
 		# don't cause duplicates if more than one pull is used
-		ensure_resource('ssh::send', "${valid_host}", $params)
+		ensure_resource('shubin_ssh::send', "${valid_host}", $params)
 
 		# export a special recv type in case they want to use auto recv
 		# the name here is ignored and is only needed for uniqueness...
-		@@ssh::recv::auto { "${valid_host}-${name}":	# is ignored...
+		@@shubin_ssh::recv::auto { "${valid_host}-${name}":	# is ignored...
 			tag => "${valid_host}",	# to
 			from => "${::fqdn}",	# from
 			fast => $fast,	# but it's overriden on collect anyways
@@ -90,7 +90,7 @@ define ssh::file::pull(	# formerly named: recv; pull was easier to think about!
 	# exported resources all clashing to add the same resource somewhere...
 	# to work around this puppet design bug, we use a wrapper to keep these
 	# types unique using ensure_resource and a unique (fake) wrapper $name!
-	ssh::file::hash::wrapper { "${::fqdn}_${valid_this}_${name}":
+	shubin_ssh::file::hash::wrapper { "${::fqdn}_${valid_this}_${name}":
 		realname => "${valid_this}",
 		verify => $verify,
 	}
@@ -146,7 +146,7 @@ define ssh::file::pull(	# formerly named: recv; pull was easier to think about!
 		require => [
 			#File["${vardir}/"],
 			File["${vardir}/file/pull-unless-${safename}.sh"],
-			Ssh::File::Hash["${valid_this}"],	# compute first
+			Shubin_ssh::File::Hash["${valid_this}"],	# compute first
 		],
 		alias => "ssh-file-pull-scp-${name}",
 	}
@@ -194,12 +194,12 @@ define ssh::file::pull(	# formerly named: recv; pull was easier to think about!
 	}
 
 	# add a hash request on the src host, so it computes and exports one...
-	@@ssh::file::hash::wrapper { "__${::fqdn}_${valid_file}_${name}":	# __ !!
+	@@shubin_ssh::file::hash::wrapper { "__${::fqdn}_${valid_file}_${name}":	# __ !!
 		realname => "${valid_file}",	# complete path of file on host
 		tag => "${valid_host}",		# should usually be the fqdn...
 	}
 
-	include ssh::file::hash::collect	# collect these exported hashes
+	include shubin_ssh::file::hash::collect	# collect these exported hashes
 }
 
 # vim: ts=8

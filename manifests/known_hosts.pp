@@ -19,7 +19,7 @@
 # TODO: at the moment the sshkey builtin only works on /etc/ssh/ssh_known_hosts
 # TODO: we might be able to wrap the sshkey type by using the target parameter!
 
-define ssh::known_hosts(	# TODO
+define shubin_ssh::known_hosts(	# TODO
 
 ) {
 

@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # helper function to generate and manage an ssh-key
-define ssh::keygen(				# TODO: $name is unused for now
+define shubin_ssh::keygen(				# TODO: $name is unused for now
 	$user = 'root',
 	$type = 'rsa',				# we can specify the default...
 	$bits = '',				# defaults are specied below...

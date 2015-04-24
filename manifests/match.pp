@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-define ssh::match(
+define shubin_ssh::match(
 	# User, Group, Host, and Address elements can use: !, *, ?
 	$user = [],	# eg: root
 	$group = [],	# eg: !wheel
@@ -49,7 +49,7 @@ define ssh::match(
 	#X11UseLocalHost
 	$comment = ''
 ) {
-	include ssh::server
+	include shubin_ssh::server
 
 	# build each match condition (if it exists)
 	$user_string = inline_template('<% if @user != [] %>User <%= @user.join(",") %><% end %>')

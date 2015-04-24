@@ -15,14 +15,14 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-class ssh::file::hash::collect() {	# use this class to collect up the cats
+class shubin_ssh::file::hash::collect() {	# use this class to collect up the cats
 
-	include ssh::vardir
-	#$vardir = $::ssh::vardir::module_vardir	# with trailing slash
-	$vardir = regsubst($::ssh::vardir::module_vardir, '\/$', '')
+	include shubin_ssh::vardir
+	#$vardir = $::shubin_ssh::vardir::module_vardir	# with trailing slash
+	$vardir = regsubst($::shubin_ssh::vardir::module_vardir, '\/$', '')
 
 	# TODO: tag is unused, reserved for future namespacing
-	Ssh::File::Hash::Cat <<| tag == 'ssh_file_hash_cat' and title != "${::fqdn}" |>> {
+	Shubin_ssh::File::Hash::Cat <<| tag == 'ssh_file_hash_cat' and title != "${::fqdn}" |>> {
 		basepath => "${vardir}/file/cat/",	# store here...
 	}
 }

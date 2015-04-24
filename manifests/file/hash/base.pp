@@ -15,12 +15,12 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-class ssh::file::hash::base() {
+class shubin_ssh::file::hash::base() {
 
-	include ssh::file
-	include ssh::vardir
-	#$vardir = $::ssh::vardir::module_vardir	# with trailing slash
-	$vardir = regsubst($::ssh::vardir::module_vardir, '\/$', '')
+	include shubin_ssh::file
+	include shubin_ssh::vardir
+	#$vardir = $::shubin_ssh::vardir::module_vardir	# with trailing slash
+	$vardir = regsubst($::shubin_ssh::vardir::module_vardir, '\/$', '')
 
 	file { "${vardir}/file/hash/":
 		ensure => directory,	# make sure this is a directory
@@ -38,9 +38,9 @@ class ssh::file::hash::base() {
 		require => File["${vardir}/file/"],
 	}
 
-	@@ssh::file::hash::cat { "${::fqdn}":
+	@@shubin_ssh::file::hash::cat { "${::fqdn}":
 		# since these are cat together, you can grep <name>$ for files!
-		content => "${::ssh_file_hash_cat}",	# fact of all hashes...
+		content => "${::shubin_ssh_file_hash_cat}",	# fact of all hashes...
 		tag => 'ssh_file_hash_cat',	# TODO: unused future namespace
 	}
 }

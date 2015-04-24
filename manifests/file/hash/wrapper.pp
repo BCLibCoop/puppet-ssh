@@ -16,18 +16,18 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # NOTE: the $name is ignored, as it is used only for uniqueness...
-define ssh::file::hash::wrapper(	# avoid duplicates of ssh::file::hash
+define shubin_ssh::file::hash::wrapper(	# avoid duplicates of shubin_ssh::file::hash
 	$realname,
 	$verify = true	# verify the hash on *every* run or rely only on mtime?
 ) {
 
-	# this must use all the args as listed in ssh::file::hash
+	# this must use all the args as listed in shubin_ssh::file::hash
 	$params = {
 		'verify' => $verify,
 	}
 
 	# build this resource uniquely...
-	ensure_resource('ssh::file::hash', "${realname}", $params)
+	ensure_resource('shubin_ssh::file::hash', "${realname}", $params)
 }
 
 # vim: ts=8
